@@ -134,21 +134,20 @@ public class BancoDados extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         //ToDo Polir aqui, adicionar os dados a partir dos aqruivos da OMS usando outra classe, apenas chamando um metodo
-
-        values.put(COD_COL1,"A00");
-        values.put(COD_COL2,"A00");
-        values.put(COD_COL3,"A00");
-        values.put(COD_CAPID,"A00");
-        values.put(FK_BL_ID_START,"A00");
-        values.put(COD_COL6,"A00");
+        values.put(COD_COL1, 3);
+        values.put(COD_COL2, "N");
+        values.put(COD_COL3, "X");
+        values.put(COD_CAPID, 01);
+        values.put(FK_BL_ID_START, "A00");
+        values.put(COD_COL6, "A00.-");
         values.put(COD_COL7,"A00");
         values.put(COD_ID,"A00");
-        values.put(COD_DESC,"A00");
-        values.put(COD_COL10,"A00");
-        values.put(COD_COL11,"A00");
-        values.put(COD_COL12,"A00");
-        values.put(COD_COL13,"A00");
-        values.put(COD_COL14,"A00");
+        values.put(COD_DESC, "Cholera");
+        values.put(COD_COL10, "001");
+        values.put(COD_COL11, "4-002");
+        values.put(COD_COL12, "3-003");
+        values.put(COD_COL13, "2-001");
+        values.put(COD_COL14, "1-002");
 
 
         db.insert(CODIGO, null, values);
