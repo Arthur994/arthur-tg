@@ -226,6 +226,19 @@ public class BancoDados extends SQLiteOpenHelper {
         db.close();
         return cursor;
     }
-    // TODO: 24/07/2017  BUSCA TODOS OS CAPITULOS
+
+    public Cursor selecionarTodosCodigos(){
+        Cursor cursor;
+        String[] campos = {BancoDados.COD_COL1, BancoDados.COD_COL2, BancoDados.COD_COL3, BancoDados.COD_CAPID, BancoDados.FK_BL_ID_START, BancoDados.COD_COL6, BancoDados.COD_COL7, BancoDados.COD_ID, BancoDados.COD_DESC, BancoDados.COD_COL10, BancoDados.COD_COL11, BancoDados.COD_COL12, BancoDados.COD_COL13, BancoDados.COD_COL14};
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        cursor = db.query(BancoDados.CODIGO, campos, null, null, null, null, null, null);
+
+        if (cursor != null){
+            cursor.moveToFirst();
+        }
+        db.close();
+        return cursor;
+    }
 
 }
