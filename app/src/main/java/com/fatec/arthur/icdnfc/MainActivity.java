@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.fatec.arthur.icdnfc.database.BancoDados;
+import com.fatec.arthur.icdnfc.database.ManipularArquivos;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,7 +56,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    teste();
+        teste();
+
+        // TODO: 31/07/2017 Essa chamada do manipular arquivos deve ser feita do banco de dados;
+        ManipularArquivos a = new ManipularArquivos(this);
 
     }
+
+
 }
