@@ -50,6 +50,9 @@ public class BancoDados extends SQLiteOpenHelper {
         super(context, NOME, null, VERSAO);
     }
 
+
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -102,13 +105,12 @@ public class BancoDados extends SQLiteOpenHelper {
     /*CRUD*/
 
     //adicionar capitulos
-    public void addCapitulos(){
+    public void addCapitulos(int id, String cap){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        //ToDo Polir aqui, adicionar os dados a partir dos aqruivos da OMS usando outra classe, apenas chamando um metodo
-        values.put(CAP_ID,01);
-        values.put(CAP_NOME,"Certain infectious and parasitic diseases");
+        values.put(CAP_ID,id);
+        values.put(CAP_NOME,cap);
 
         db.insert(CAPITULO, null, values);
         db.close();

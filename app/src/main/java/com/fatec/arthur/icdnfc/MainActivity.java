@@ -7,26 +7,27 @@ import android.os.Bundle;
 import com.fatec.arthur.icdnfc.database.BancoDados;
 import com.fatec.arthur.icdnfc.database.ManipularArquivos;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
-    public void teste(){
-
-        BancoDados bd = new BancoDados(this);
+    public void teste(BancoDados bd){
+        /*BancoDados bd = new BancoDados();
 
         //teste inserção
         bd.addCapitulos();
         bd.addBlocos();
-        bd.addCodigos();
+        bd.addCodigos();*/
 
         //teste seleção - Capitulos
-        Cursor cursor = bd.selecionarTodosCapituos();
-        System.out.println("teste --- selecionarTodosCapitulos id: " + cursor.getString(0) + " Nome: " + cursor.getString(1));
+        //Cursor cursor = bd.selecionarTodosCapituos();
+        //System.out.println("teste capitulos --- selecionarTodosCapitulos id: " + cursor.getString(0) + " Nome: " + cursor.getString(1));
 
         //teste seleção unitaria - Capitulos
-        Cursor cursor1 = bd.selecionarCapByID(1);
-        System.out.println("teste --- selecionarCapById id: " + cursor1.getString(0) + " Nome: " + cursor1.getString(1));
+        Cursor cursor1 = bd.selecionarCapByID(12);
+        System.out.println("teste capitulos --- selecionarCapById id: " + cursor1.getString(0) + " Nome: " + cursor1.getString(1));
 
-        //teste seleção unitaria - Blocos
+/*        //teste seleção unitaria - Blocos
         Cursor cursor2 = bd.selecionarBlocoByID("A00");
         System.out.println("teste --- selecionarBlocoById: Start  " + cursor2.getString(0) + " Final " + cursor2.getString(1) + " FK " + cursor2.getString(2) + " Nome: " + cursor2.getString(3));
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Teste --- selecionarCodById Col1" + cursor5.getString(0) + " Col2 " + cursor5.getString(1) + " Col3 " + cursor5.getString(2) + " cap_id " + cursor5.getString(3)
                 + " Col5 " + cursor5.getString(4) + " Col6 " + cursor5.getString(5) + " Col7 " + cursor5.getString(6) + " Cod_id " + cursor5.getString(7) + " Cod_desc " + cursor5.getString(8)
                 + " Col10 " + cursor5.getString(9) + " Co11 " + cursor5.getString(10) + " Col12 " + cursor5.getString(11) + " col13 " + cursor5.getString(12) + " Col14 " + cursor5.getString(13)
-        );
+        );*/
     }
 
 
@@ -56,10 +57,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        teste();
 
-        // TODO: 31/07/2017 Essa chamada do manipular arquivos deve ser feita do banco de dados;
+
+
+        // TODO: 31/07/2017 Essa chamada do manipular arquivos deve ser feita do banco de dados; ps: Consegui fazer a partir da main e funciona porem tenta inserir toda vez q é aberto
+        BancoDados bd = new BancoDados(this);
         ManipularArquivos a = new ManipularArquivos(this);
+
+        List<String> capitulos = a.getCapitulos();
+
+        for (String c : capitulos) {
+            String[] aux = c.split(";");
+            //System.out.println("CAPITULOS: id " + aux[0] + " cap " + aux[1]);
+            bd.addCapitulos(Integer.parseInt(aux[0]),aux[1]);
+        }
+
+        teste(bd);
 
     }
 
