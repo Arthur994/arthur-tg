@@ -27,11 +27,11 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor1 = bd.selecionarCapByID(12);
         System.out.println("teste capitulos --- selecionarCapById id: " + cursor1.getString(0) + " Nome: " + cursor1.getString(1));
 
-/*        //teste seleção unitaria - Blocos
-        Cursor cursor2 = bd.selecionarBlocoByID("A00");
+        //teste seleção unitaria - Blocos
+        Cursor cursor2 = bd.selecionarBlocoByID("Z80");
         System.out.println("teste --- selecionarBlocoById: Start  " + cursor2.getString(0) + " Final " + cursor2.getString(1) + " FK " + cursor2.getString(2) + " Nome: " + cursor2.getString(3));
 
-        //teste seleção - Blocos
+/*        //teste seleção - Blocos
         Cursor cursor3 = bd.selecionarTodosBlocos();
         System.out.println("teste --- selecionarBlocoById: Start " + cursor3.getString(0) + " Final " + cursor3.getString(1) + " FK " + cursor3.getString(2) + " Nome: " + cursor3.getString(3));
 
@@ -65,12 +65,21 @@ public class MainActivity extends AppCompatActivity {
         ManipularArquivos a = new ManipularArquivos(this);
 
         List<String> capitulos = a.getCapitulos();
+        List<String> blocos = a.getBlocos();
 
         for (String c : capitulos) {
             String[] aux = c.split(";");
             //System.out.println("CAPITULOS: id " + aux[0] + " cap " + aux[1]);
             bd.addCapitulos(Integer.parseInt(aux[0]),aux[1]);
         }
+
+        for (String c : blocos) {
+            String[] aux = c.split(";");
+            //System.out.println("blocos: start " + aux[0] + " end " + aux[1] + " fk " + aux[2] + " nome " + aux[3]);
+            bd.addBlocos(aux[0], aux[1], Integer.parseInt(aux[2]), aux[3]);
+        }
+
+        // TODO: 01/08/2017 For dos codigos 
 
         teste(bd);
 

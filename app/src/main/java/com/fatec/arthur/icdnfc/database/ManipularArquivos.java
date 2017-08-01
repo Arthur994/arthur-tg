@@ -21,7 +21,6 @@ import java.util.List;
 public class ManipularArquivos {
 
     List<String> capitulos = new ArrayList<>();
-    // TODO: 31/07/2017 Fazer manipução de arquivos para os outros tipos do BD
     List<String> blocos = new ArrayList<>();
     List<String> codigos = new ArrayList<>();
 
@@ -31,6 +30,7 @@ public class ManipularArquivos {
 
         InputStream is = null;
 
+        //capitulos
         try {
             is = mngr.open("arquivosOms/chapters.txt");
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -38,6 +38,33 @@ public class ManipularArquivos {
 
             while ((linha = reader.readLine()) != null)
                 capitulos.add(linha);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        //blocos
+        try {
+            is = mngr.open("arquivosOms/blocks.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String linha;
+
+            while ((linha = reader.readLine()) != null)
+                blocos.add(linha);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        // TODO: 01/08/2017 Fazer tratamento dos codigos.
+        //codigos
+        try {
+            is = mngr.open("arquivosOms/codes.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String linha;
+
+            while ((linha = reader.readLine()) != null)
+                codigos.add(linha);
 
         } catch (IOException e){
             e.printStackTrace();

@@ -116,16 +116,14 @@ public class BancoDados extends SQLiteOpenHelper {
         db.close();
     }
     //adicionar blocos
-    public void addBlocos(){
+    public void addBlocos(String id_start, String id_end, int fk_cap_id, String nome){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        //ToDo Polir aqui, adicionar os dados a partir dos aqruivos da OMS usando outra classe, apenas chamando um metodo
-
-        values.put(BL_ID_START,"A00");
-        values.put(BL_ID_END,"A09");
-        values.put(FK_CAP_ID,1);
-        values.put(BL_NOME,"Intestinal infectious diseases");
+        values.put(BL_ID_START,id_start);
+        values.put(BL_ID_END,id_end);
+        values.put(FK_CAP_ID,fk_cap_id);
+        values.put(BL_NOME,nome);
 
         db.insert(BLOCO, null, values);
         db.close();
