@@ -129,25 +129,24 @@ public class BancoDados extends SQLiteOpenHelper {
         db.close();
     }
     //adicionar codigos
-    public void addCodigos(){
+    public void addBlocos(int i, String s, String s1, int i1, String s2, String s3, String s4, String s5, String s6, String s7, String s8, String s9, String s10, String s11){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        //ToDo Polir aqui, adicionar os dados a partir dos aqruivos da OMS usando outra classe, apenas chamando um metodo
-        values.put(COD_COL1, 3);
-        values.put(COD_COL2, "N");
-        values.put(COD_COL3, "X");
-        values.put(COD_CAPID, 01);
-        values.put(FK_BL_ID_START, "A00");
-        values.put(COD_COL6, "A00.-");
-        values.put(COD_COL7,"A00");
-        values.put(COD_ID,"A00");
-        values.put(COD_DESC, "Cholera");
-        values.put(COD_COL10, "001");
-        values.put(COD_COL11, "4-002");
-        values.put(COD_COL12, "3-003");
-        values.put(COD_COL13, "2-001");
-        values.put(COD_COL14, "1-002");
+        values.put(COD_COL1, i);
+        values.put(COD_COL2, s);
+        values.put(COD_COL3, s1);
+        values.put(COD_CAPID, i1);
+        values.put(FK_BL_ID_START, s2);
+        values.put(COD_COL6, s3);
+        values.put(COD_COL7,s4);
+        values.put(COD_ID,s5);
+        values.put(COD_DESC, s6);
+        values.put(COD_COL10, s7);
+        values.put(COD_COL11, s8);
+        values.put(COD_COL12, s9);
+        values.put(COD_COL13, s10);
+        values.put(COD_COL14, s11);
 
 
         db.insert(CODIGO, null, values);
