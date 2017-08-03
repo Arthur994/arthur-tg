@@ -88,13 +88,6 @@ public class BancoDados extends SQLiteOpenHelper {
                 + COD_COL14 + " VARCHAR(5) DEFAULT NULL, CONSTRAINT FK_COD FOREIGN KEY (CAP_ID) REFERENCES CAPITULOS(CAP_ID), CONSTRAINT FK_CODIGOS2 FOREIGN KEY (bl_id_start) REFERENCES blocos(bl_id_start))";
         db.execSQL(tb_codigo);
 
-        // TODO: 31/07/2017 popular o banco a partir daqui 
-        //popula o banco.
-        /*
-        this.addCapitulos();
-        this.addBlocos();
-        */
-
     }
 
     @Override

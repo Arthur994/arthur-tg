@@ -11,6 +11,47 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public void PrimeiraExec() {
+        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+        if (isFirstRun){
+
+            popularBD();
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).apply();
+        }
+    }
+
+    public void popularBD(){
+        BancoDados bd = new BancoDados(this);
+        ManipularArquivos a = new ManipularArquivos(this);
+
+        List<String> capitulos = a.getCapitulos();
+        List<String> blocos = a.getBlocos();
+        List<String> codigos = a.getCodigos();
+
+        for (String c : capitulos) {
+            String[] aux = c.split(";");
+            //System.out.println("CAPITULOS: id " + aux[0] + " cap " + aux[1]);
+            bd.addCapitulos(Integer.parseInt(aux[0]),aux[1]);
+        }
+
+        for (String c : blocos) {
+            String[] aux = c.split(";");
+            //System.out.println("blocos: start " + aux[0] + " end " + aux[1] + " fk " + aux[2] + " nome " + aux[3]);
+            bd.addBlocos(aux[0], aux[1], Integer.parseInt(aux[2]), aux[3]);
+        }
+
+        for (String c : codigos) {
+            String[] aux = c.split(";");
+            bd.addBlocos(Integer.parseInt(aux[0]),aux[1],aux[2],Integer.parseInt(aux[3]),aux[4],aux[5],aux[6],aux[7],aux[8],aux[9],aux[10],aux[11],aux[12],aux[13]);
+        }
+
+        teste(bd);
+
+        //se necessario mudar pra retornar a bd instanciada
+
+    }
+
     public void teste(BancoDados bd){
 
         //teste seleção unitaria - Capitulos
@@ -27,6 +68,18 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Teste --- selecionarCodById Col1" + cursor4.getString(0) + " Col2 " + cursor4.getString(1) + " Col3 " + cursor4.getString(2) + " cap_id " + cursor4.getString(3)
                 + " Col5 " + cursor4.getString(4) + " Col6 " + cursor4.getString(5) + " Col7 " + cursor4.getString(6) + " Cod_id " + cursor4.getString(7) + " Cod_desc " + cursor4.getString(8)
                 + " Col10 " + cursor4.getString(9) + " Co11 " + cursor4.getString(10) + " Col12 " + cursor4.getString(11) + " col13 " + cursor4.getString(12) + " Col14 " + cursor4.getString(13)
+        );
+
+        Cursor cursor5 = bd.selecionarCodByID("B182");
+        System.out.println("Teste --- selecionarCodById Col1" + cursor5.getString(0) + " Col2 " + cursor5.getString(1) + " Col3 " + cursor5.getString(2) + " cap_id " + cursor5.getString(3)
+                + " Col5 " + cursor5.getString(4) + " Col6 " + cursor5.getString(5) + " Col7 " + cursor5.getString(6) + " Cod_id " + cursor5.getString(7) + " Cod_desc " + cursor5.getString(8)
+                + " Col10 " + cursor5.getString(9) + " Co11 " + cursor5.getString(10) + " Col12 " + cursor5.getString(11) + " col13 " + cursor5.getString(12) + " Col14 " + cursor5.getString(13)
+        );
+
+        Cursor cursor6 = bd.selecionarCodByID("U801");
+        System.out.println("Teste --- selecionarCodById Col1" + cursor6.getString(0) + " Col2 " + cursor6.getString(1) + " Col3 " + cursor6.getString(2) + " cap_id " + cursor6.getString(3)
+                + " Col5 " + cursor6.getString(4) + " Col6 " + cursor6.getString(5) + " Col7 " + cursor6.getString(6) + " Cod_id " + cursor6.getString(7) + " Cod_desc " + cursor6.getString(8)
+                + " Col10 " + cursor6.getString(9) + " Co11 " + cursor6.getString(10) + " Col12 " + cursor6.getString(11) + " col13 " + cursor6.getString(12) + " Col14 " + cursor6.getString(13)
         );
 
 /*
@@ -61,36 +114,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
-        // TODO: 31/07/2017 Essa chamada do manipular arquivos deve ser feita do banco de dados; ps: Consegui fazer a partir da main e funciona porem tenta inserir toda vez q é aberto, fazer um methodo na main que só é executado na primeira inicialização
-
-        BancoDados bd = new BancoDados(this);
-        ManipularArquivos a = new ManipularArquivos(this);
-
-        List<String> capitulos = a.getCapitulos();
-        List<String> blocos = a.getBlocos();
-        List<String> codigos = a.getCodigos();
-
-        for (String c : capitulos) {
-            String[] aux = c.split(";");
-            //System.out.println("CAPITULOS: id " + aux[0] + " cap " + aux[1]);
-            bd.addCapitulos(Integer.parseInt(aux[0]),aux[1]);
-        }
-
-        for (String c : blocos) {
-            String[] aux = c.split(";");
-            //System.out.println("blocos: start " + aux[0] + " end " + aux[1] + " fk " + aux[2] + " nome " + aux[3]);
-            bd.addBlocos(aux[0], aux[1], Integer.parseInt(aux[2]), aux[3]);
-        }
-
-        for (String c : codigos) {
-            String[] aux = c.split(";");
-            bd.addBlocos(Integer.parseInt(aux[0]),aux[1],aux[2],Integer.parseInt(aux[3]),aux[4],aux[5],aux[6],aux[7],aux[8],aux[9],aux[10],aux[11],aux[12],aux[13]);
-        }
-
-        teste(bd);
+        PrimeiraExec();
 
     }
 

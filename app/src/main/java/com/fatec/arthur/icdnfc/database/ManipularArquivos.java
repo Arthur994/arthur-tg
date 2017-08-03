@@ -56,7 +56,6 @@ public class ManipularArquivos {
             e.printStackTrace();
         }
 
-        // TODO: 01/08/2017 Fazer tratamento dos codigos.
         //codigos
         try {
             is = mngr.open("arquivosOms/codes.txt");
