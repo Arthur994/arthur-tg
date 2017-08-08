@@ -235,6 +235,6 @@ public class BancoDados extends SQLiteOpenHelper {
         return cursor;
     }
 
-    // TODO: 07/08/2017 Fazer metodos ToString  para exibição na tela de resultados
+
 
 }

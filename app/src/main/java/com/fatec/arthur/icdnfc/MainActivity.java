@@ -1,5 +1,6 @@
 package com.fatec.arthur.icdnfc;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     public void PrimeiraExec() {
         boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
         if (isFirstRun){
-
+            //Checa se é a primeira execução do aplicativo e chama outro metodo caso seja.
             popularBD();
 
             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).apply();
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void popularBD(){
+        //Popula o BD
         BancoDados bd = new BancoDados(this);
         ManipularArquivos a = new ManipularArquivos(this);
 
@@ -115,6 +117,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         PrimeiraExec();
+
+        // TODO: 08/08/2017 Enviar  lista de buscas para a tela resultado;
+
+
+        //chamando a tela resultado.
+        Intent resultado = new Intent(this, Resultado.class);
+        startActivity(resultado);
 
     }
 
