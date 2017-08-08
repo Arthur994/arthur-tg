@@ -56,6 +56,8 @@ public class BancoDados extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        // TODO: 07/08/2017 Verificar a necessidade de fazer checagem de primeira execução como na main. 
+
         //Cria a tabela capitulo
         String tb_capitulo = "CREATE TABLE " + CAPITULO + "("
                 + CAP_ID + " INT(2) UNIQUE PRIMARY KEY, "
@@ -232,5 +234,7 @@ public class BancoDados extends SQLiteOpenHelper {
         db.close();
         return cursor;
     }
+
+    // TODO: 07/08/2017 Fazer metodos ToString  para exibição na tela de resultados
 
 }
