@@ -34,13 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
         for (String c : capitulos) {
             String[] aux = c.split(";");
-            //System.out.println("CAPITULOS: id " + aux[0] + " cap " + aux[1]);
             bd.addCapitulos(Integer.parseInt(aux[0]),aux[1]);
         }
 
         for (String c : blocos) {
             String[] aux = c.split(";");
-            //System.out.println("blocos: start " + aux[0] + " end " + aux[1] + " fk " + aux[2] + " nome " + aux[3]);
             bd.addBlocos(aux[0], aux[1], Integer.parseInt(aux[2]), aux[3]);
         }
 
@@ -48,11 +46,6 @@ public class MainActivity extends AppCompatActivity {
             String[] aux = c.split(";");
             bd.addBlocos(Integer.parseInt(aux[0]),aux[1],aux[2],Integer.parseInt(aux[3]),aux[4],aux[5],aux[6],aux[7],aux[8],aux[9],aux[10],aux[11],aux[12],aux[13]);
         }
-
-        teste(bd);
-
-        //se necessario mudar pra retornar a bd instanciada
-
     }
 
     public void teste(BancoDados bd){
@@ -119,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
 
         PrimeiraExec();
 
-        // TODO: 08/08/2017 Enviar  lista de buscas para a tela resultado;
-
         List<String> teste = new ArrayList<String>();
         teste.add("A00");
         teste.add("B182");
@@ -128,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
         CodTag tag = new CodTag();
         tag.setCodigosNFC(teste);
 
+        //Envia a lista cids para a tela resultado onde é feita a busca;
 
         //chamando a tela resultado.
         Intent resultado = new Intent(this, Resultado.class);
