@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.fatec.arthur.icdnfc.database.BancoDados;
 import com.fatec.arthur.icdnfc.database.ManipularArquivos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -120,12 +121,18 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: 08/08/2017 Enviar  lista de buscas para a tela resultado;
 
+        List<String> teste = new ArrayList<String>();
+        teste.add("A00");
+        teste.add("B182");
+
+        CodTag tag = new CodTag();
+        tag.setCodigosNFC(teste);
+
 
         //chamando a tela resultado.
         Intent resultado = new Intent(this, Resultado.class);
         startActivity(resultado);
 
     }
-
 
 }
