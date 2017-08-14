@@ -4,9 +4,6 @@ package com.fatec.arthur.icdnfc.database;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.fatec.arthur.icdnfc.MainActivity;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
