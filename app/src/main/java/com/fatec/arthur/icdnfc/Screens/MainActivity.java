@@ -1,19 +1,35 @@
 package com.fatec.arthur.icdnfc.Screens;
 
+
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.fatec.arthur.icdnfc.CodTag;
 import com.fatec.arthur.icdnfc.R;
 import com.fatec.arthur.icdnfc.database.BancoDados;
 import com.fatec.arthur.icdnfc.database.ManipularArquivos;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private List<String> leituraTag = new ArrayList<String>();
+    private NfcAdapter nfcAdapter;
+    private PendingIntent pendingIntent;
+    private IntentFilter writeTagFilters[];
+
+
 
     public void PrimeiraExec() {
         boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
@@ -46,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (String c : codigos) {
             String[] aux = c.split(";");
-            bd.addBlocos(Integer.parseInt(aux[0]),aux[1],aux[2],Integer.parseInt(aux[3]),aux[4],aux[5],aux[6],aux[7],aux[8],aux[9],aux[10],aux[11],aux[12],aux[13]);
+            bd.addCodigos(Integer.parseInt(aux[0]),aux[1],aux[2],Integer.parseInt(aux[3]),aux[4],aux[5],aux[6],aux[7],aux[8],aux[9],aux[10],aux[11],aux[12],aux[13]);
         }
     }
 
@@ -106,28 +122,112 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PrimeiraExec();
 
-        List<String> teste = new ArrayList<String>();
+        PrimeiraExec();
+        // TODO: 15/08/2017 Leitura NFC
+
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (nfcAdapter == null) {
+            //Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
+            finish();
+        }
+        readFromIntent(getIntent());
+
+        pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
+        tagDetected.addCategory(Intent.CATEGORY_DEFAULT);
+        writeTagFilters = new IntentFilter[] { tagDetected };
+
+        //TODO: 26/09/2017  metodo para manipular
+/*        List<String> teste = new ArrayList<String>();
+
+
+
         teste.add("I061");
         teste.add("H933");
         teste.add("V202");
 
         CodTag tag = new CodTag();
-        tag.setCodigosNFC(teste);
+        tag.setCodigosNFC(teste);*/
 
         //Envia a lista cids para a tela resultado onde é feita a busca;
 
         //chamando a tela resultado.
+/*
         Intent resultado = new Intent(this, Resultado.class);
         startActivity(resultado);
+*/
+    }
 
+    private void readFromIntent(Intent intent) {
+        String action = intent.getAction();
+        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
+                || NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)
+                || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            NdefMessage[] msgs = null;
+            if (rawMsgs != null) {
+                msgs = new NdefMessage[rawMsgs.length];
+                for (int i = 0; i < rawMsgs.length; i++) {
+                    msgs[i] = (NdefMessage) rawMsgs[i];
+                }
+            }
+            buildTagViews(msgs);
+        }
+    }
+
+    private void buildTagViews(NdefMessage[] msgs) {
+        if (msgs == null || msgs.length == 0) return;
+
+        String text = "";
+//        String tagId = new String(msgs[0].getRecords()[0].getType());
+        byte[] payload = msgs[0].getRecords()[0].getPayload();
+        String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16"; // Get the Text Encoding
+        int languageCodeLength = payload[0] & 0063; // Get the Language Code, e.g. "en"
+        // String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
+
+        try {
+            // Get the Text
+            text = new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
+        } catch (UnsupportedEncodingException e) {
+            Log.e("UnsupportedEncoding", e.toString());
+        }
+
+        tratamentoTag(text);
+
+
+    }
+
+    private void tratamentoTag(String text){
+        String[] texto = text.split(";");
+
+        for(String s : texto){
+            leituraTag.add(s);
+        }
+
+        CodTag tag = new CodTag();
+        tag.setCodigosNFC(leituraTag);
+
+        //Envia a lista cids para a tela resultado onde é feita a busca;
+        //chamando a tela resultado.
+
+        Intent resultado = new Intent(this, Resultado.class);
+        startActivity(resultado);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
     }
 
 }

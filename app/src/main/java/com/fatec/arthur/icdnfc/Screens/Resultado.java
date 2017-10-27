@@ -1,5 +1,6 @@
 package com.fatec.arthur.icdnfc.Screens;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,4 +55,14 @@ public class Resultado extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, busca(tag.getCodigosNFC()));
         resultados.setAdapter(adapter);
     }
+
+    @Override
+    public void onBackPressed(){
+        Intent trocaTela = new Intent(this, MainActivity.class);
+        startActivity(trocaTela);
+
+        this.finish();
+        super.onBackPressed();
+    }
+
 }

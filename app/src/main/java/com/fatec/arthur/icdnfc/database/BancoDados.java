@@ -42,22 +42,13 @@ public class BancoDados extends SQLiteOpenHelper {
     private static final String COD_COL13 = "col13";
     private static final String COD_COL14 = "col14";
 
-
-
-
     //Cria a database
     public BancoDados(Context context) {
         super(context, NOME, null, VERSAO);
     }
 
-
-
-
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        // TODO: 07/08/2017 Verificar a necessidade de fazer checagem de primeira execução como na main. 
-
         //Cria a tabela capitulo
         String tb_capitulo = "CREATE TABLE " + CAPITULO + "("
                 + CAP_ID + " INT(2) UNIQUE PRIMARY KEY, "
@@ -89,7 +80,6 @@ public class BancoDados extends SQLiteOpenHelper {
                 + COD_COL13 + " VARCHAR(5) DEFAULT NULL, "
                 + COD_COL14 + " VARCHAR(5) DEFAULT NULL, CONSTRAINT FK_COD FOREIGN KEY (CAP_ID) REFERENCES CAPITULOS(CAP_ID), CONSTRAINT FK_CODIGOS2 FOREIGN KEY (bl_id_start) REFERENCES blocos(bl_id_start))";
         db.execSQL(tb_codigo);
-
     }
 
     @Override
@@ -124,7 +114,7 @@ public class BancoDados extends SQLiteOpenHelper {
         db.close();
     }
     //adicionar codigos
-    public void addBlocos(int i, String s, String s1, int i1, String s2, String s3, String s4, String s5, String s6, String s7, String s8, String s9, String s10, String s11){
+    public void addCodigos(int i, String s, String s1, int i1, String s2, String s3, String s4, String s5, String s6, String s7, String s8, String s9, String s10, String s11){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -234,7 +224,5 @@ public class BancoDados extends SQLiteOpenHelper {
         db.close();
         return cursor;
     }
-
-
 
 }
