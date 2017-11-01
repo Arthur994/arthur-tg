@@ -1,6 +1,5 @@
 package com.fatec.arthur.icdnfc.Screens;
 
-
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -133,10 +132,10 @@ public class MainActivity extends AppCompatActivity {
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (nfcAdapter == null) {
-            //Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Este dispositivo não tem suporte a NFC", Toast.LENGTH_LONG).show();
             finish();
         }
-        readFromIntent(getIntent());
+        lerIntent(getIntent());
 
         pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 */
     }
 
-    private void readFromIntent(Intent intent) {
+    private void lerIntent(Intent intent) {
         String action = intent.getAction();
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
                 || NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)
@@ -184,38 +183,33 @@ public class MainActivity extends AppCompatActivity {
     private void buildTagViews(NdefMessage[] msgs) {
         if (msgs == null || msgs.length == 0) return;
 
-        String text = "";
-//        String tagId = new String(msgs[0].getRecords()[0].getType());
+        String texto = "";
         byte[] payload = msgs[0].getRecords()[0].getPayload();
-        String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16"; // Get the Text Encoding
-        int languageCodeLength = payload[0] & 0063; // Get the Language Code, e.g. "en"
-        // String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
+        String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";//Codificação do texto
+        int languageCodeLength = payload[0] & 0063;
 
         try {
-            // Get the Text
-            text = new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
+            //Pegar texto
+            texto = new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
         } catch (UnsupportedEncodingException e) {
             Log.e("UnsupportedEncoding", e.toString());
         }
 
-        tratamentoTag(text);
-
-
+        tratamentoTag(texto);
     }
 
     private void tratamentoTag(String text){
-        String[] texto = text.split(";");
+        String[] cid = text.split(";");
 
-        for(String s : texto){
+        for(String s : cid){
             leituraTag.add(s);
         }
 
+        //Envia a lista cids, atraves da classe tag para a tela resultado onde é feita a busca;
         CodTag tag = new CodTag();
         tag.setCodigosNFC(leituraTag);
 
-        //Envia a lista cids para a tela resultado onde é feita a busca;
         //chamando a tela resultado.
-
         Intent resultado = new Intent(this, Resultado.class);
         startActivity(resultado);
     }
