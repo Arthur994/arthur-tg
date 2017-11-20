@@ -2,10 +2,12 @@ package com.fatec.arthur.icdnfc.Screens;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.fatec.arthur.icdnfc.CodTag;
 import com.fatec.arthur.icdnfc.R;
@@ -24,12 +26,18 @@ public class Resultado extends AppCompatActivity {
         List<String> resultado = new LinkedList<String>();
 
         for(String c:lista){
-            Cursor cod = bd.selecionarCodByID(c);
-            Cursor block = bd.selecionarBlocoByID(cod.getString(4));
-            Cursor cap = bd.selecionarCapByID(Integer.parseInt(cod.getString(3)));
-            
-            String aux = ToString(cod,cap,block);
-            resultado.add(aux);
+
+            try {
+                Cursor cod = bd.selecionarCodByID(c);
+                Cursor block = bd.selecionarBlocoByID(cod.getString(4));
+                Cursor cap = bd.selecionarCapByID(Integer.parseInt(cod.getString(3)));
+
+                String aux = ToString(cod,cap,block);
+                resultado.add(aux);
+            } catch (CursorIndexOutOfBoundsException e) {
+                onBackPressed();
+                Toast.makeText(this, "O conteúdo desta etiqueta não é suportado.", Toast.LENGTH_LONG).show();
+            }
         }
         return resultado;
     }

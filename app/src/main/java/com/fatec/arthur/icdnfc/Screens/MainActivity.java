@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private NfcAdapter nfcAdapter;
     private PendingIntent pendingIntent;
     private IntentFilter writeTagFilters[];
+    private NfcAdapter mAdapter;
+    private PendingIntent mPendingIntent;
+    private NdefMessage mNdefPushMessage;
 
 
 
@@ -141,26 +144,6 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
         tagDetected.addCategory(Intent.CATEGORY_DEFAULT);
         writeTagFilters = new IntentFilter[] { tagDetected };
-
-        //TODO: 26/09/2017  metodo para manipular
-/*        List<String> teste = new ArrayList<String>();
-
-
-
-        teste.add("I061");
-        teste.add("H933");
-        teste.add("V202");
-
-        CodTag tag = new CodTag();
-        tag.setCodigosNFC(teste);*/
-
-        //Envia a lista cids para a tela resultado onde é feita a busca;
-
-        //chamando a tela resultado.
-/*
-        Intent resultado = new Intent(this, Resultado.class);
-        startActivity(resultado);
-*/
     }
 
     private void lerIntent(Intent intent) {
@@ -194,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (UnsupportedEncodingException e) {
             Log.e("UnsupportedEncoding", e.toString());
         }
-
         tratamentoTag(texto);
     }
 
@@ -217,11 +199,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        if (mAdapter != null) {
+            if (!mAdapter.isEnabled()) {
+                //showWirelessSettingsDialog();
+            }
+            mAdapter.enableForegroundDispatch(this, mPendingIntent, null, null);
+            //mAdapter.enableForegroundNdefPush(this, mNdefPushMessage);
+        }
     }
 
     @Override
     protected void onPause(){
         super.onPause();
+        super.onPause();
+        if (mAdapter != null) {
+            mAdapter.disableForegroundDispatch(this);
+           //mAdapter.disableForegroundNdefPush(this);
+        }
     }
 
 }
